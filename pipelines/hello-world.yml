@@ -4,7 +4,7 @@ resources:
   source: {interval: 1m}
 
 jobs:
-- name: hello-world
+- name: annoy
   plan:
   - get: every-1m
     trigger: true
@@ -16,4 +16,4 @@ jobs:
         source: {repository: ubuntu}
       run:
         path: echo
-        args: ["Hello, world!"]
+        args: ["aaaaaaaaa"]
