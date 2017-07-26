@@ -14,7 +14,7 @@ resources:
   type: git
   source:
     uri: https://github.com/sursmobil/dac.git
-    banch: master
+    branch: master
     username: ((github-user))
     password: ((github-pass))
 
