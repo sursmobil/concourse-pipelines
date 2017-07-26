@@ -10,13 +10,13 @@ resources:
     uri: https://github.com/sursmobil/dac.git
     branch: dev
 
-- name: src-stable
-  type: git
-  source:
-    uri: https://github.com/sursmobil/dac.git
-    banch: master
-    username: ((github-user))
-    password: ((github-pass))
+# - name: src-stable
+#   type: git
+#   source:
+#     uri: https://github.com/sursmobil/dac.git
+#     banch: master
+#     username: ((github-user))
+#     password: ((github-pass))
 
 jobs:
 - name: dac-release
