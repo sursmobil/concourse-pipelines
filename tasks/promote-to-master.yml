@@ -9,8 +9,6 @@ image_resource:
 inputs:
 - name: ci-src
 - name: src-dev
-
-outputs:
 - name: src-stable
 
 run:
