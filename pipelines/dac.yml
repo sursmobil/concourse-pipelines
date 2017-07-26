@@ -19,6 +19,8 @@ jobs:
         type: docker-image
         source:
           repository: erlang:19
+      inputs:
+      - name: dac-src
       run:
         path: rebar3
         args: ["eunit"]
