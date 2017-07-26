@@ -10,13 +10,13 @@ resources:
     uri: https://github.com/sursmobil/dac.git
     branch: dev
 
-# - name: src-stable
-#   type: git
-#   source:
-#     uri: https://github.com/sursmobil/dac.git
-#     banch: master
-#     username: ((github-user))
-#     password: ((github-pass))
+- name: src-stable
+  type: git
+  source:
+    uri: https://github.com/sursmobil/dac.git
+    banch: master
+    username: ((github-user))
+    password: ((github-pass))
 
 jobs:
 - name: dac-release
@@ -27,3 +27,5 @@ jobs:
       trigger: true
   - task: unit-test
     file: ci-src/tasks/erl-lib-unit-test.yml
+  - task: promote-to-master
+    file: ci-src/tasks/promote-to-master.yml
