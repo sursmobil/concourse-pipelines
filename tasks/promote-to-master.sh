@@ -2,9 +2,7 @@
 
 set -ex
 
-pushd src-stable
-  git remote add dev ../src-dev
-  git fetch dev dev
+pushd src-dev
   git checkout master
-  git merge dev/dev
+  git merge dev
 popd

@@ -33,10 +33,12 @@ jobs:
 - name: release
   plan:
   - aggregate:
-    - get: src-stable
+    - get: ci-src
     - get: src-dev
       trigger: true
       passed: [unit-test]
+  - task: unit-test
+    file: ci-src/tasks/promote-to-master.yml
   - put: src-stable
     params:
       repository: src-dev
