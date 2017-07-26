@@ -14,6 +14,7 @@ jobs:
       trigger: true
   - task: unit-test
     config:
+      platform: linux
       image_resource:
         type: docker-image
         source:
