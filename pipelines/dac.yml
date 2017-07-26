@@ -18,7 +18,7 @@ jobs:
       image_resource:
         type: docker-image
         source:
-          repository: erlang:19
+          repository: ubuntu
       inputs:
       - name: dac-src
       run:
