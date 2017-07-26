@@ -9,8 +9,8 @@ resources:
   source:
     uri: https://github.com/sursmobil/dac.git
     branch: dev
-      username: ((github-user))
-      password: ((github-pass))
+    username: ((github-user))
+    password: ((github-pass))
 
 - name: src-stable
   type: git
