@@ -19,15 +19,23 @@ resources:
     password: ((github-pass))
 
 jobs:
-- name: dac-release
+- name: unit-test
+  plan:
+    - aggregate:
+      - get: ci-src
+      - get: src-dev
+        trigger: true
+    - task: unit-test
+      file: ci-src/tasks/erl-lib-unit-test.yml
+
+- name: release
   plan:
   - aggregate:
     - get: ci-src
     - get: src-stable
     - get: src-dev
       trigger: true
-  - task: unit-test
-    file: ci-src/tasks/erl-lib-unit-test.yml
+      passed: [unit-test]
   - task: promote-to-master
     file: ci-src/tasks/promote-to-master.yml
   - put: src-stable
