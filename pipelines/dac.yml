@@ -9,8 +9,8 @@ resources:
   source:
     uri: https://github.com/sursmobil/dac.git
     branch: dev
-    username: ((github-user))
-    password: ((github-pass))
+      username: ((github-user))
+      password: ((github-pass))
 
 - name: src-stable
   type: git
@@ -32,9 +32,11 @@ jobs:
 
 - name: release
   plan:
-  - get: src-dev
-    trigger: true
-    passed: [unit-test]
+  - aggregate:
+    - get: src-stable
+    - get: src-dev
+      trigger: true
+      passed: [unit-test]
   - put: src-dev
     params:
       repository: src-stable
