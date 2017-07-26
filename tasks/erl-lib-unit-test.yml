@@ -13,4 +13,4 @@ inputs:
 run:
   path: rebar3
   args: ["eunit"]
-  dir: dac-src
+  dir: src-dev
