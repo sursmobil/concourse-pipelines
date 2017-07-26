@@ -23,6 +23,7 @@ jobs:
   plan:
   - aggregate:
     - get: ci-src
+    - get: src-stable
     - get: src-dev
       trigger: true
   - task: unit-test
