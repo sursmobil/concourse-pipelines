@@ -1,8 +1,20 @@
 resources:
-- name: dac-src
+- name: ci-src
+  type: git
+  source:
+    uri: https://github.com/sursmobil/concourse-pipelines.git
+
+- name: src-dev
   type: git
   source:
     uri: https://github.com/sursmobil/dac.git
+    branch: dev
+
+- name: src-stable
+  type: git
+  source:
+    uri: https://github.com/sursmobil/dac.git
+    banch: master
     username: ((github-user))
     password: ((github-pass))
 
@@ -10,19 +22,8 @@ jobs:
 - name: dac-release
   plan:
   - aggregate:
-    - get: dac-src
+    - get: ci-src
+    - get: src-dev
       trigger: true
   - task: unit-test
-    config:
-      platform: linux
-      image_resource:
-        type: docker-image
-        source:
-          repository: erlang
-          tag: "19"
-      inputs:
-      - name: dac-src
-      run:
-        path: rebar3
-        args: ["eunit"]
-        dir: dac-src
+    file: ci-src/tasks/erl-lib-unit-test.yml
