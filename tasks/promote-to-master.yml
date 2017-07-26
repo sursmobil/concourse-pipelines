@@ -9,7 +9,6 @@ image_resource:
 inputs:
 - name: ci-src
 - name: src-dev
-- name: src-stable
 
 run:
   path: ci-src/tasks/promote-to-master.sh

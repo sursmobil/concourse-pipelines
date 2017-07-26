@@ -37,7 +37,7 @@ jobs:
     - get: src-dev
       trigger: true
       passed: [unit-test]
-  - task: unit-test
+  - task: promote-to-master
     file: ci-src/tasks/promote-to-master.yml
   - put: src-stable
     params:
