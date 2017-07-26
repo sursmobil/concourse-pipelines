@@ -1,0 +1,24 @@
+resources:
+- name: dac-src
+  type: git
+  source:
+    uri: https://github.com/sursmobil/dac.git
+    username: ((github-user))
+    password: ((github-pass))
+
+jobs:
+- name: dac-release
+  plan:
+  - aggregate:
+    - get: dac-src
+      trigger: true
+  - task: unit-test
+    config:
+      image_resource:
+        type: docker-image
+        source:
+          repository: erlang:19
+      run:
+        path: rebar3
+        args: ["eunit"]
+        dir: dac-src
