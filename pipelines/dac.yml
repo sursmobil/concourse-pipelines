@@ -30,3 +30,6 @@ jobs:
     file: ci-src/tasks/erl-lib-unit-test.yml
   - task: promote-to-master
     file: ci-src/tasks/promote-to-master.yml
+  - put: src-stable
+    params:
+      rebase: true
