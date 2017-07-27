@@ -8,9 +8,9 @@ image_resource:
     tag: "19"
 
 inputs:
-- name: src-dev
+- name: src
 
 run:
   path: rebar3
   args: ["eunit"]
-  dir: src-dev
+  dir: src

@@ -4,13 +4,11 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: erlang
-    tag: "19"
+    repository: concourse/git-resource
 
 inputs:
+- name: ci-src
 - name: src
 
 run:
-  path: rebar3
-  args: ["dialyzer"]
-  dir: src
+  path: ci-src/tasks/commit-git-index.sh

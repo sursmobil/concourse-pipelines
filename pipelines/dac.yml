@@ -20,8 +20,12 @@ resources:
     username: ((github-user))
     password: ((github-pass))
 
+- name: 1m
+  type: time
+  source: {interval: 1m}
+
 jobs:
-- name: promote
+- name: check-and-promote
   plan:
   - aggregate:
     - get: ci-src
@@ -29,35 +33,41 @@ jobs:
       trigger: true
   - task: promote-to-master
     file: ci-src/tasks/promote-to-master.yml
-
-- name: unit-test
-  plan:
-  - aggregate:
-    - get: ci-src
-    - get: src-dev
-      passed: [promote]
-      trigger: true
-  - task: unit-test
-    file: ci-src/tasks/erl-lib-unit-test.yml
-
-- name: dialyzer
-  plan:
-  - aggregate:
-    - get: ci-src
-    - get: src-dev
-      passed: [promote]
-      trigger: true
-  - task: dialyzer
-    file: ci-src/tasks/erl-lib-dialyzer.yml
-
-- name: release
-  plan:
-  - aggregate:
-    - get: ci-src
-    - get: src-dev
-      trigger: true
-      passed: [unit-test, dialyzer]
+  - agregate:
+    - task: unit-test
+      file: ci-src/tasks/erl-lib-unit-test.yml
+      input_mapping: {src: src-dev}
+    - task: dialyzer
+      file: ci-src/tasks/erl-lib-dialyzer.yml
+      input_mapping: {src: src-dev}
   - put: src-stable
     params:
       repository: src-dev
+      merge: true
+
+- name: update-deps
+  plan:
+  - get: 1m
+    trigger: true
+  - aggregate:
+    - get: src-stable
+      passed: [check-and-promote]
+    - get: ci-src
+  - task: update-deps
+    file: ci-src/tasks/erl-lib-update-deps.yml
+    input_mapping: {src: src-dev}
+  - agregate:
+    - task: unit-test
+      file: ci-src/tasks/erl-lib-unit-test.yml
+      input_mapping: {src: src-dev}
+    - task: dialyzer
+      file: ci-src/tasks/erl-lib-dialyzer.yml
+      input_mapping: {src: src-dev}
+  - task: save-deps
+    file: ci-src/tasks/commit-git-index.yml
+    params:
+      MESSAGE: "CI: Update dependencies"
+  - put: src-stable
+    params:
+      repository: src-stable
       merge: true

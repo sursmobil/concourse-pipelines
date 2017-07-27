@@ -2,7 +2,7 @@
 
 set -ex
 
-pushd src-dev
+pushd src
   git fetch origin master
   git checkout -b master
   git merge dev

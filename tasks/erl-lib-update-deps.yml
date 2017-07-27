@@ -12,5 +12,5 @@ inputs:
 
 run:
   path: rebar3
-  args: ["dialyzer"]
+  args: ["upgrade"]
   dir: src
