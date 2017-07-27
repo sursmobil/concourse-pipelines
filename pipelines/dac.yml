@@ -33,7 +33,8 @@ jobs:
       trigger: true
   - task: promote-to-master
     file: ci-src/tasks/promote-to-master.yml
-  - agregate:
+    input_mapping: {src: src-dev}
+  - aggregate:
     - task: unit-test
       file: ci-src/tasks/erl-lib-unit-test.yml
       input_mapping: {src: src-dev}
@@ -55,16 +56,17 @@ jobs:
     - get: ci-src
   - task: update-deps
     file: ci-src/tasks/erl-lib-update-deps.yml
-    input_mapping: {src: src-dev}
-  - agregate:
+    input_mapping: {src: src-stable}
+  - aggregate:
     - task: unit-test
       file: ci-src/tasks/erl-lib-unit-test.yml
-      input_mapping: {src: src-dev}
+      input_mapping: {src: src-stable}
     - task: dialyzer
       file: ci-src/tasks/erl-lib-dialyzer.yml
-      input_mapping: {src: src-dev}
+      input_mapping: {src: src-stable}
   - task: save-deps
     file: ci-src/tasks/commit-git-index.yml
+    input_mapping: {src: src-stable}
     params:
       MESSAGE: "CI: Update dependencies"
   - put: src-stable
