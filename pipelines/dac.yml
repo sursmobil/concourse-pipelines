@@ -57,18 +57,20 @@ jobs:
   - task: update-deps
     file: ci-src/tasks/erl-lib-update-deps.yml
     input_mapping: {src: src-stable}
-  - aggregate:
-    - task: unit-test
-      file: ci-src/tasks/erl-lib-unit-test.yml
+  - try:
+      task: save-deps
+      file: ci-src/tasks/commit-git-index.yml
       input_mapping: {src: src-stable}
-    - task: dialyzer
-      file: ci-src/tasks/erl-lib-dialyzer.yml
-      input_mapping: {src: src-stable}
-  - task: save-deps
-    file: ci-src/tasks/commit-git-index.yml
-    input_mapping: {src: src-stable}
-    params:
-      MESSAGE: "CI: Update dependencies"
+      params:
+        MESSAGE: "CI: Update dependencies"
+      on_success:
+        aggregate:
+          - task: unit-test
+            file: ci-src/tasks/erl-lib-unit-test.yml
+            input_mapping: {src: src-stable}
+          - task: dialyzer
+            file: ci-src/tasks/erl-lib-dialyzer.yml
+            input_mapping: {src: src-stable}
   - put: src-stable
     params:
       repository: src-stable
