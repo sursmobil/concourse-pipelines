@@ -1,0 +1,16 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: erlang
+    tag: "19"
+
+inputs:
+- name: src-dev
+
+run:
+  path: rebar3
+  args: ["dialyzer"]
+  dir: src-dev
