@@ -50,11 +50,12 @@ def ensure_dir(path):
     from os.path import exists
     from os import makedirs
     if not exists(path):
+        print(path)
         makedirs(path)
 
 def save_project(prj, content):
     ensure_dir(get_gen('pipelines'))
-    out_file = get_gen('pipelines','{}.yml'.format(prj.name))
+    out_file = get_gen('pipelines', '{}.yml'.format(prj.name))
     with open(out_file, 'w') as f:
         f.write(content)
     return
