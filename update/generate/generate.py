@@ -50,7 +50,6 @@ def save_project(prj, content):
 
 def generate_project(cfg, prj):
     content = render_project(config, project)
-    print content
     save_project(prj, content)
     return
 
