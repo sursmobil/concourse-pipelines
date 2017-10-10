@@ -23,6 +23,8 @@ def get_src(*path):
 def get_gen(*path):
     from os.path import join
     from os import getenv
+    print(getenv('CI_GEN'))
+    print(path)
     return join(getenv('CI_GEN'), *path)
 
 def load_config():
@@ -50,7 +52,6 @@ def ensure_dir(path):
     from os.path import exists
     from os import makedirs
     if not exists(path):
-        print(path)
         makedirs(path)
 
 def save_project(prj, content):
@@ -61,7 +62,9 @@ def save_project(prj, content):
     return
 
 def generate_project(cfg, prj):
+    print("Render {} from {}".format(prj.name, prj._template))
     content = render_project(config, project)
+    print("Save pipeline {}")
     save_project(prj, content)
     return
 
