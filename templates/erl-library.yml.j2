@@ -2,12 +2,12 @@ resources:
 - name: ci-src
   type: git
   source:
-    uri: https://github.com/sursmobil/concourse-pipelines.git
+    uri: https://github.com/{{ci.repository}}.git
 
 - name: src-dev
   type: git
   source:
-    uri: https://github.com/sursmobil/dac.git
+    uri: https://github.com/{{project.repository}}.git
     branch: dev
     username: ((github-user))
     password: ((github-pass))
@@ -15,7 +15,7 @@ resources:
 - name: src-stable
   type: git
   source:
-    uri: https://github.com/sursmobil/dac.git
+    uri: https://github.com/{{project.repository}}.git
     branch: master
     username: ((github-user))
     password: ((github-pass))

@@ -1,0 +1,7 @@
+ci:
+  repository: sursmobil/concourse-pipelines
+
+projects:
+- name: dac
+  repository: sursmobil/dac
+  template: erl-library.yml.j2
