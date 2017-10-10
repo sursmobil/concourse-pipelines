@@ -9,5 +9,12 @@ image_resource:
 inputs:
 - name: ci-src
 
+outputs:
+- name: ci-gen
+
+params:
+  CI_SRC: ci-src
+  CI_GEN: ci-gen
+
 run:
   path: ci-src/update/generate/generate.sh
