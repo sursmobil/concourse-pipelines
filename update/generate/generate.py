@@ -43,6 +43,7 @@ def create_jinja_env():
 
 def render_project(cfg, prj):
     template = env.get_template(prj._template)
+    print("Render {} from {}".format(prj.name, template.filename))
     return template.render(
         project=prj.__dict__,
         ci=config.ci.__dict__
@@ -57,14 +58,13 @@ def ensure_dir(path):
 def save_project(prj, content):
     ensure_dir(get_gen('pipelines'))
     out_file = get_gen('pipelines', '{}.yml'.format(prj.name))
+    print("Save pipeline {}".format(out_file))
     with open(out_file, 'w') as f:
         f.write(content)
     return
 
 def generate_project(cfg, prj):
-    print("Render {} from {}".format(prj.name, prj._template))
     content = render_project(config, project)
-    print("Save pipeline {}")
     save_project(prj, content)
     return
 
