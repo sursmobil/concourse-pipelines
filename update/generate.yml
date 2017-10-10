@@ -10,4 +10,4 @@ inputs:
 - name: ci-src
 
 run:
-  path: ci-src/update/generate-pipelines.py
+  path: ci-src/update/generate.py
