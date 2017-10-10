@@ -1,10 +1,5 @@
 #!/usr/bin/env python
 
-import yaml
-import os
-from jinja2 import Environment, FileSystemLoader
-from os.path import join
-
 class Project(object):
     def __init__(self, name, repository, template):
         self.name = name
@@ -21,15 +16,24 @@ class Config(object):
         self.ci = CI(**ci)
 
 def get_src(*path):
-    return join(os.getenv('CI_SRC'), *path)
+    from os.path import join
+    from os import getenv
+    return join(getenv('CI_SRC'), *path)
+
+def get_gen(*path):
+    from os.path import join
+    from os import getenv
+    return join(getenv('CI_GEN'), *path)
 
 def load_config():
+    import yaml
     config_file = get_src('config.yml')
     with open(config_file) as f:
         config = yaml.load(f)
     return Config(**config)
 
 def create_jinja_env():
+    from jinja2 import Environment, FileSystemLoader
     return Environment(
         loader=FileSystemLoader(get_src('templates')),
         autoescape=None
@@ -42,8 +46,15 @@ def render_project(cfg, prj):
         ci=config.ci.__dict__
     )
 
+def ensure_dir(path):
+    from os.path import exists
+    from os import makedirs
+    if not exists(path):
+        makedirs(path)
+
 def save_project(prj, content):
-    out_file = get_src('pipelines/{}.yml'.format(prj.name))
+    ensure_dir(get_gen('pipelines'))
+    out_file = get_gen('pipelines','{}.yml'.format(prj.name))
     with open(out_file, 'w') as f:
         f.write(content)
     return
@@ -52,7 +63,6 @@ def generate_project(cfg, prj):
     content = render_project(config, project)
     save_project(prj, content)
     return
-
 
 env = create_jinja_env()
 config = load_config()
